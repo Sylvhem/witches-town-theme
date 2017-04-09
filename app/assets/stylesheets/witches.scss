@@ -38,6 +38,10 @@ div.column {
   background-color: $witches-primary;
 }
 
+.muted a.status__content__spoiler-link {
+  text-shadow: none;
+}
+
 .status__content .status__content__spoiler-link:hover,
 .reply-indicator__content .status__content__spoiler-link:hover {
   background-color: $witches-dark;
