@@ -72,3 +72,12 @@ div.column {
   background-color: $witches-primary;
   text-shadow: #000 0 0 2px;
 }
+
+.text-icon-button.active,
+.icon-button.inverted.active {
+  color: $witches-primary;
+}
+
+.privacy-dropdown__option:hover, .privacy-dropdown__option.active {
+  background-color: $witches-primary;
+}
