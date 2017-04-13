@@ -31,3 +31,6 @@ config/deploy/*
 
 # Ignore Docker Volumes
 data/*
+
+# Ignore IDE files
+.vscode/
