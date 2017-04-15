@@ -90,7 +90,7 @@ const fr = {
   "report.heading": "Nouveau signalement",
   "report.placeholder": "Commentaires additionnels",
   "report.submit": "Envoyer",
-  "report.target": "Signalement"
+  "report.target": "Signalement",
   "search.account": "Compte",
   "search.hashtag": "Mot-clé",
   "search.placeholder": "Rechercher",
