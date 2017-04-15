@@ -1,33 +1,43 @@
 $witches-primary: #A288BD;
 $witches-light: lighten($witches-primary, 15%);
+$witches-lighter: lighten($witches-primary, 30%);
 $witches-dark: darken($witches-primary, 15%);
+$witches-darker: darken($witches-primary, 30%);
 
 div.column {
   flex-grow: 1;
   flex-shrink: 1;
 }
 
-.button {
+.button,
+.privacy-dropdown__option:hover, 
+.privacy-dropdown__option.active,
+.loading-bar {
   background-color: $witches-primary;
 }
 
-.button:hover, .button:active, .button:focus {
+.button:hover,
+.button:active, 
+.button:focus,
+.status__content .status__content__spoiler-link:hover,
+.reply-indicator__content .status__content__spoiler-link:hover {
   background-color: $witches-dark;
 }
 
-.status__content a {
-  color: $witches-primary;
-}
-
-.notification__message .fa {
-  color: $witches-primary;
-}
-
-.icon-button.active {
-  color: $witches-primary;
-}
-
-.account__header .account__header__username {
+.status__content a,
+.notification__message .fa,
+.icon-button.active,
+.account__header .account__header__username,
+.column-back-button,
+.column-header.active .fa,
+.text-icon-button.active,
+.icon-button.inverted.active,
+.dropdown--active .icon-button,
+.card .name small,
+.status.light .status__content a,
+.activity-stream .status.light .status__content a,
+.tabs-bar__link.active
+{
   color: $witches-primary;
 }
 
@@ -42,11 +52,6 @@ div.column {
   text-shadow: none;
 }
 
-.status__content .status__content__spoiler-link:hover,
-.reply-indicator__content .status__content__spoiler-link:hover {
-  background-color: $witches-dark;
-}
-
 .reply-indicator {
   background-color: $witches-light;
 }
@@ -56,7 +61,6 @@ div.column {
 }
 
 .column-header.active .fa {
-  color: $witches-primary;
   text-shadow: 0 0 10px rgba($witches-primary, 0.4);
 }
 
@@ -64,20 +68,23 @@ div.column {
   background: radial-gradient(ellipse, rgba($witches-primary, 0.23) 0%, rgba($witches-primary, 0) 60%);
 }
 
-.column-back-button {
-  color: $witches-primary;
-}
-
 .admin-wrapper .sidebar ul ul a.selected {
   background-color: $witches-primary;
   text-shadow: #000 0 0 2px;
 }
 
-.text-icon-button.active,
-.icon-button.inverted.active {
-  color: $witches-primary;
+.dropdown--active .dropdown__content > ul,
+.dropdown--active .dropdown__content > ul > li > a {
+  background-color: $witches-lighter;
 }
 
-.privacy-dropdown__option:hover, .privacy-dropdown__option.active {
+.dropdown--active .dropdown__content > ul > li > a:hover {
   background-color: $witches-primary;
+  color: $witches-lighter;
+}
+
+.card .counter.active::after,
+.tabs-bar__link.active
+{
+  border-bottom-color: $witches-primary;
 }
