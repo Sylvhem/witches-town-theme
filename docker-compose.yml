@@ -14,6 +14,7 @@ services:
   web:
     restart: always
     build: .
+    image: gargron/mastodon
     env_file: .env.production
     environment:
       - WEB_CONCURRENCY=6
@@ -30,6 +31,7 @@ services:
   streaming:
     restart: always
     build: .
+    image: gargron/mastodon
     env_file: .env.production
     command: npm run start
     ports:
@@ -41,6 +43,7 @@ services:
   sidekiq:
     restart: always
     build: .
+    image: gargron/mastodon
     env_file: .env.production
     environment:
       - DB_POOL=15
