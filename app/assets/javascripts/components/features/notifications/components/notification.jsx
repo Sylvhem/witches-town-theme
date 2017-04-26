@@ -44,7 +44,7 @@ const Notification = React.createClass({
       <div className='notification notification-favourite'>
         <div className='notification__message'>
           <div style={{ position: 'absolute', 'left': '-26px'}}>
-            <i className='fa fa-fw fa-star' style={{ color: '#ca8f04' }} />
+            <i className='fa fa-fw fa-star' style={{ color: '#7c59a0', transform: 'rotate(180deg)' }} />
           </div>
 
           <FormattedMessage id='notification.favourite' defaultMessage='{name} favourited your status' values={{ name: link }} />
