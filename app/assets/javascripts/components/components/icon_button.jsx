@@ -52,7 +52,7 @@ class IconButton extends React.PureComponent {
     }
 
     return (
-      <Motion defaultStyle={{ rotate: this.props.active ? -180 : 180 }} style={{ rotate: this.props.animate ? spring(this.props.active ? -180 : 180, { stiffness: 120, damping: 7 }) : 0 }}>
+      <Motion defaultStyle={{ rotate: this.props.active ? -360 : 0 }} style={{ rotate: this.props.animate ? spring(this.props.active ? -360 : 0, { stiffness: 120, damping: 7 }) : 0 }}>
         {({ rotate }) =>
           <button
             aria-label={this.props.title}
