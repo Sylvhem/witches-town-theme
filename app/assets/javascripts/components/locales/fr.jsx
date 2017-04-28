@@ -1,3 +1,11 @@
+/**
+ * Note aux contributeurs⋅trices:
+ * Pour rendre plus simple la vie des autres personnes
+ * apportant leur contribution, merci de penser aux choses suivantes :
+ *   1. Ajoutez les nouvelles chaînes traduites par ordre alphabétique
+ *   2. Pensez à supprimer les chaînes inutilisées
+ * Merci !
+ */
 const fr = {
   "account.block": "Bloquer",
   "account.disclaimer": "Ce compte est situé sur une autre instance. Les nombres peuvent être plus grands.",
@@ -15,7 +23,7 @@ const fr = {
   "account.unfollow": "Ne plus suivre",
   "account.unmute": "Ne plus masquer",
   "column_back_button.label": "Retour",
-  "column.blocks": "Utilisateurs·trices bloqué·e·s",
+  "column.blocks": "Comptes bloqués",
   "column.community": "Le Sabbat",
   "column.favourites": "Sigils",
   "column.follow_requests": "Demandes de suivi",
@@ -54,6 +62,7 @@ const fr = {
   "loading_indicator.label": "Chargement…",
   "media_gallery.toggle_visible": "Modifier la visibilité",
   "missing_indicator.label": "Non trouvé",
+  "navigation_bar.blocks": "Comptes bloqués",
   "navigation_bar.blocks": "Utilisateurs·trices bloqué·e·s",
   "navigation_bar.community_timeline": "Le Sabbat",
   "navigation_bar.edit_profile": "Modifier le profil",
@@ -61,14 +70,14 @@ const fr = {
   "navigation_bar.follow_requests": "Demandes de suivi",
   "navigation_bar.info": "Plus d'informations",
   "navigation_bar.logout": "Déconnexion",
-  "navigation_bar.mutes": "Utilisateurs·trices muet·te·s",
+  "navigation_bar.mutes": "Comptes muets",
   "navigation_bar.preferences": "Préférences",
   "navigation_bar.public_timeline": "La Boule de Cristal",
   "notification.favourite": "{name} a placé un sigil :",
   "notification.follow": "{name} vous a rejoint.",
   "notification.mention": "{name} vous a jeté⋅e un sort :",
   "notification.reblog": "{name} a canalisé votre malédiction :",
-  "notifications.clear_confirmation": "Voulez-vous vraiment nettoyer toutes vos notifications ?",
+  "notifications.clear_confirmation": "Voulez-vous vraiment supprimer toutes vos notifications ?",
   "notifications.clear": "Nettoyer",
   "notifications.column_settings.alert": "Notifications locales",
   "notifications.column_settings.favourite": "Sigils :",
