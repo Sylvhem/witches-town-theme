@@ -16,14 +16,14 @@ div.column {
 }
 
 .button,
-.privacy-dropdown__option:hover, 
+.privacy-dropdown__option:hover,
 .privacy-dropdown__option.active,
 .loading-bar {
   background-color: $witches-primary;
 }
 
 .button:hover,
-.button:active, 
+.button:active,
 .button:focus,
 .status__content .status__content__spoiler-link:hover,
 .reply-indicator__content .status__content__spoiler-link:hover {
@@ -47,7 +47,11 @@ div.column {
   color: $witches-primary;
 }
 
-.status__content .status__content__spoiler-link, 
+.star-icon.active {
+  color: #8f1d00;
+}
+
+.status__content .status__content__spoiler-link,
 .reply-indicator__content .status__content__spoiler-link {
   color: #fff;
   text-shadow: #000 0 0 2px;
@@ -122,4 +126,19 @@ div.column {
 .column-link:hover
 {
   background-color: $witches-background-lighter;
+}
+
+@font-face {
+  font-family: 'witchesAwesome';
+  src:  url('/witchesAwesome/witchesAwesome.eot?cmmud9');
+  src:  url('/witchesAwesome/witchesAwesome.eot?cmmud9#iefix') format('embedded-opentype'),
+    url('/witchesAwesome/witchesAwesome.ttf?cmmud9') format('truetype'),
+    url('/witchesAwesome/witchesAwesome.woff?cmmud9') format('woff'),
+    url('/witchesAwesome/witchesAwesome.svg?cmmud9#witchesAwesome') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fa {
+  font-family: witchesAwesome, FontAwesome;
 }
