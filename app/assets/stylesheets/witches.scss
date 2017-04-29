@@ -142,3 +142,11 @@ div.column {
 .fa {
   font-family: witchesAwesome, FontAwesome;
 }
+
+.fa-star::before {
+  font-weight: bold;
+}
+
+.detailed-status__link .fa-star {
+  font-size: 11px;
+}
