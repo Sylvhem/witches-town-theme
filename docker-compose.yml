@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
 
 #  db:
@@ -12,9 +12,9 @@ services:
 #    volumes:
 #      - ./data/redis:/data
   web:
-    restart: always
     build: .
     image: gargron/mastodon
+    restart: always
     env_file: .env.production
     environment:
       - WEB_CONCURRENCY=6
@@ -26,12 +26,13 @@ services:
 #      - redis
     volumes:
       - ./public/assets:/mastodon/public/assets
+      - ./public/packs:/mastodon/public/packs
       - ./public/system:/mastodon/public/system
 
   streaming:
-    restart: always
     build: .
     image: gargron/mastodon
+    restart: always
     env_file: .env.production
     command: npm run start
     ports:
@@ -41,9 +42,9 @@ services:
 #      - redis
 
   sidekiq:
-    restart: always
     build: .
     image: gargron/mastodon
+    restart: always
     env_file: .env.production
     environment:
       - DB_POOL=15
