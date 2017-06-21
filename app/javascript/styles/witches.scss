@@ -17,7 +17,10 @@ div.column {
 .button,
 .privacy-dropdown__option:hover,
 .privacy-dropdown__option.active,
-.loading-bar {
+.loading-bar,
+.react-toggle--checked,
+.react-toggle-track
+{
   background-color: $witches-primary;
 }
 
@@ -109,7 +112,9 @@ div.column {
 .column-icon,
 .collapsable-collapsed,
 .drawer__header a:hover,
-.column-back-button
+.column-header__back-button,
+.column-header__button,
+.column-header__collapsible > div
 {
   background-color: $witches-background;
 }
