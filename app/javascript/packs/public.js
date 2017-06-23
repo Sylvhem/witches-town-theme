@@ -87,7 +87,7 @@ function main() {
   delegate(document, '.account_note', 'input', ({ target }) => {
     const noteCounter = document.querySelector('.note-counter');
     if (noteCounter) {
-      noteCounter.textContent = 160 - length(target.value);
+      noteCounter.textContent = 333 - length(target.value);
     }
   });
 }
