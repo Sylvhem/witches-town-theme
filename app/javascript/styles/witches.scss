@@ -18,8 +18,9 @@ div.column {
 .privacy-dropdown__option:hover,
 .privacy-dropdown__option.active,
 .loading-bar,
-.react-toggle--checked,
 .react-toggle-track
+.react-toggle--checked .react-toggle-track,
+.react-toggle--checked .react-toggle-thumb,
 {
   background-color: $witches-primary;
 }
@@ -77,7 +78,10 @@ div.column {
   text-shadow: 0 0 10px rgba($witches-primary, 0.4);
 }
 
-.status-list__unread-indicator, .notifications__unread-indicator {
+.status-list__unread-indicator, 
+.notifications__unread-indicator,
+.column-header__wrapper.active::before 
+{
   background: radial-gradient(ellipse, rgba($witches-primary, 0.23) 0%, rgba($witches-primary, 0) 60%);
 }
 
@@ -113,8 +117,7 @@ div.column {
 .collapsable-collapsed,
 .drawer__header a:hover,
 .column-header__back-button,
-.column-header__button,
-.column-header__collapsible > div
+.column-header__button
 {
   background-color: $witches-background;
 }
@@ -122,7 +125,10 @@ div.column {
 .collapsable,
 .column-settings--outer,
 .drawer__header,
-.column-link
+.column-link,
+.column-header__button.active,
+.column-header__button.active:hover,
+.column-header__collapsible > div
 {
   background-color: $witches-background-light;
 }
