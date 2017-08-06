@@ -135,7 +135,7 @@ class Web::PushSubscription < ApplicationRecord
     end
 
     if can_boost
-      actions << { title: translate('push_notifications.mention.action_boost'), icon: full_asset_url('web-push-icon_boost.png', skip_pipeline: true), todo: 'request', method: 'POST', action: "/api/v1/statuses/#{notification.target_status.id}/reblog" }
+      actions << { title: translate('push_notifications.mention.action_boost'), icon: full_asset_url('web-push-icon_reblog.png', skip_pipeline: true), todo: 'request', method: 'POST', action: "/api/v1/statuses/#{notification.target_status.id}/reblog" }
     end
 
     actions
@@ -161,6 +161,7 @@ class Web::PushSubscription < ApplicationRecord
           content: translate('push_notifications.subscribed.body'),
           actions: [],
           url: web_url('notifications'),
+          message: translate('push_notifications.group.title'), # Do not pass count, will be formatted in the ServiceWorker
         }
       ),
       endpoint: endpoint,
