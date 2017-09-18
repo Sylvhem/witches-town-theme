@@ -122,7 +122,7 @@ export default class ActionBar extends React.PureComponent {
 
             <Link className='account__action-bar__tab' to={`/accounts/${account.get('id')}/followers`}>
               <span><FormattedMessage id='account.followers' defaultMessage='Followers' /></span>
-              <strong><FormattedNumber value={account.get('followers_count')} /></strong>
+              <strong>⛧666⛧</strong>
             </Link>
           </div>
         </div>
