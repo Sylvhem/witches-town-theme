@@ -51,8 +51,8 @@ services:
     restart: always
     env_file: .env.production
     environment:
-      - DB_POOL=15
-    command: bundle exec sidekiq -c 15 -q default -q mailers -q pull -q push
+      - DB_POOL=20
+    command: bundle exec sidekiq -c 20 -q default -q mailers -q pull -q push
 #    depends_on:
 #      - db
 #      - redis
