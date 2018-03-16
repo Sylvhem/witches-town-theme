@@ -4,6 +4,8 @@ services:
 #  db:
 #    restart: always
 #    image: postgres:9.6-alpine
+#    networks:
+#      - internal_network
 ### Uncomment to enable DB persistance
 #    volumes:
 #      - ./data/pgsql:/var/lib/postgresql/data
@@ -11,34 +13,50 @@ services:
 #  redis:
 #    restart: always
 #    image: redis:4.0-alpine
+#    networks:
+#      - internal_network
 ### Uncomment to enable REDIS persistance
 #    volumes:
 #      - ./data/redis:/data
 
+#  es:
+#    restart: always
+#    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.1.3
+#    environment:
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#    networks:
+#      - internal_network
+#### Uncomment to enable ES persistance
+##    volumes:
+##      - ./elasticsearch:/usr/share/elasticsearch/data
+
   web:
     build: .
-    image: gargron/mastodon
+    image: tootsuite/mastodon
     restart: always
     env_file: .env.production
     environment:
       - WEB_CONCURRENCY=4
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
+#    networks:
+#      - external_network
+#      - internal_network
     ports:
       - "127.0.0.1:3000:3000"
 #    depends_on:
 #      - db
 #      - redis
-    volumes:
-      - ./public/assets:/mastodon/public/assets
-      - ./public/packs:/mastodon/public/packs
-      - ./public/system:/mastodon/public/system
+#       - es
 
   streaming:
     build: .
-    image: gargron/mastodon
+    image: tootsuite/mastodon
     restart: always
     env_file: .env.production
-    command: npm run start
+    command: yarn start
+    networks:
+      - external_network
+      - internal_network
     ports:
       - "127.0.0.1:4000:4000"
 #    depends_on:
@@ -47,7 +65,7 @@ services:
 
   sidekiq:
     build: .
-    image: gargron/mastodon
+    image: tootsuite/mastodon
     restart: always
     env_file: .env.production
     environment:
@@ -56,6 +74,11 @@ services:
 #    depends_on:
 #      - db
 #      - redis
-    volumes:
-      - ./public/packs:/mastodon/public/packs
-      - ./public/system:/mastodon/public/system
+    networks:
+      - external_network
+      - internal_network
+
+networks:
+  external_network:
+  internal_network:
+    internal: true
