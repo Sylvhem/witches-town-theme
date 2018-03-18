@@ -1,1 +1,2 @@
-default: styles/application.scss
+default: styles/witches-town.scss
+mastodon: styles/application.scss
