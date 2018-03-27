@@ -1,4 +1,4 @@
 Fabricator(:notification) do
-  activity fabricator: [:mention, :status, :follow, :follow_request, :favourite].sample
-  account
+  activity_id   1
+  activity_type 'Favourite'
 end

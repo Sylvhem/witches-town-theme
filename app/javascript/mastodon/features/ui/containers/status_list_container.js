@@ -48,13 +48,15 @@ const makeMapStateToProps = () => {
     statusIds: getStatusIds(state, { type: timelineId }),
     isLoading: state.getIn(['timelines', timelineId, 'isLoading'], true),
     isPartial: state.getIn(['timelines', timelineId, 'isPartial'], false),
-    hasMore:   state.getIn(['timelines', timelineId, 'hasMore']),
+    hasMore: !!state.getIn(['timelines', timelineId, 'next']),
   });
 
   return mapStateToProps;
 };
 
-const mapDispatchToProps = (dispatch, { timelineId }) => ({
+const mapDispatchToProps = (dispatch, { timelineId, loadMore }) => ({
+
+  onLoadMore: debounce(loadMore, 300, { leading: true }),
 
   onScrollToTop: debounce(() => {
     dispatch(scrollTopTimeline(timelineId, true));

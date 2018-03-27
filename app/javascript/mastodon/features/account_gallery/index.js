@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { fetchAccount } from '../../actions/accounts';
-import { expandAccountMediaTimeline } from '../../actions/timelines';
+import { refreshAccountMediaTimeline, expandAccountMediaTimeline } from '../../actions/timelines';
 import LoadingIndicator from '../../components/loading_indicator';
 import Column from '../ui/components/column';
 import ColumnBackButton from '../../components/column_back_button';
@@ -17,30 +17,8 @@ import LoadMore from '../../components/load_more';
 const mapStateToProps = (state, props) => ({
   medias: getAccountGallery(state, props.params.accountId),
   isLoading: state.getIn(['timelines', `account:${props.params.accountId}:media`, 'isLoading']),
-  hasMore:   state.getIn(['timelines', `account:${props.params.accountId}:media`, 'hasMore']),
+  hasMore: !!state.getIn(['timelines', `account:${props.params.accountId}:media`, 'next']),
 });
-
-class LoadMoreMedia extends ImmutablePureComponent {
-
-  static propTypes = {
-    maxId: PropTypes.string,
-    onLoadMore: PropTypes.func.isRequired,
-  };
-
-  handleLoadMore = () => {
-    this.props.onLoadMore(this.props.maxId);
-  }
-
-  render () {
-    return (
-      <LoadMore
-        disabled={this.props.disabled}
-        onLoadMore={this.handleLoadMore}
-      />
-    );
-  }
-
-}
 
 @connect(mapStateToProps)
 export default class AccountGallery extends ImmutablePureComponent {
@@ -55,19 +33,19 @@ export default class AccountGallery extends ImmutablePureComponent {
 
   componentDidMount () {
     this.props.dispatch(fetchAccount(this.props.params.accountId));
-    this.props.dispatch(expandAccountMediaTimeline(this.props.params.accountId));
+    this.props.dispatch(refreshAccountMediaTimeline(this.props.params.accountId));
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.params.accountId !== this.props.params.accountId && nextProps.params.accountId) {
       this.props.dispatch(fetchAccount(nextProps.params.accountId));
-      this.props.dispatch(expandAccountMediaTimeline(this.props.params.accountId));
+      this.props.dispatch(refreshAccountMediaTimeline(this.props.params.accountId));
     }
   }
 
   handleScrollToBottom = () => {
     if (this.props.hasMore) {
-      this.handleLoadMore(this.props.medias.last().get('id'));
+      this.props.dispatch(expandAccountMediaTimeline(this.props.params.accountId));
     }
   }
 
@@ -80,11 +58,7 @@ export default class AccountGallery extends ImmutablePureComponent {
     }
   }
 
-  handleLoadMore = maxId => {
-    this.props.dispatch(expandAccountMediaTimeline(this.props.params.accountId, { maxId }));
-  };
-
-  handleLoadOlder = (e) => {
+  handleLoadMore = (e) => {
     e.preventDefault();
     this.handleScrollToBottom();
   }
@@ -92,7 +66,7 @@ export default class AccountGallery extends ImmutablePureComponent {
   render () {
     const { medias, isLoading, hasMore } = this.props;
 
-    let loadOlder = null;
+    let loadMore = null;
 
     if (!medias && isLoading) {
       return (
@@ -103,7 +77,7 @@ export default class AccountGallery extends ImmutablePureComponent {
     }
 
     if (!isLoading && medias.size > 0 && hasMore) {
-      loadOlder = <LoadMore onClick={this.handleLoadOlder} />;
+      loadMore = <LoadMore onClick={this.handleLoadMore} />;
     }
 
     return (
@@ -115,18 +89,13 @@ export default class AccountGallery extends ImmutablePureComponent {
             <HeaderContainer accountId={this.props.params.accountId} />
 
             <div className='account-gallery__container'>
-              {medias.map((media, index) => media === null ? (
-                <LoadMoreMedia
-                  key={'more:' + medias.getIn(index + 1, 'id')}
-                  maxId={index > 0 ? medias.getIn(index - 1, 'id') : null}
-                />
-              ) : (
+              {medias.map(media => (
                 <MediaItem
                   key={media.get('id')}
                   media={media}
                 />
               ))}
-              {loadOlder}
+              {loadMore}
             </div>
           </div>
         </ScrollContainer>

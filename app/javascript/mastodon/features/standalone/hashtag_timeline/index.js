@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import StatusListContainer from '../../ui/containers/status_list_container';
-import { expandHashtagTimeline } from '../../../actions/timelines';
+import {
+  refreshHashtagTimeline,
+  expandHashtagTimeline,
+} from '../../../actions/timelines';
 import Column from '../../../components/column';
 import ColumnHeader from '../../../components/column_header';
 import { connectHashtagStream } from '../../../actions/streaming';
@@ -26,7 +29,7 @@ export default class HashtagTimeline extends React.PureComponent {
   componentDidMount () {
     const { dispatch, hashtag } = this.props;
 
-    dispatch(expandHashtagTimeline(hashtag));
+    dispatch(refreshHashtagTimeline(hashtag));
     this.disconnect = dispatch(connectHashtagStream(hashtag));
   }
 
@@ -37,8 +40,8 @@ export default class HashtagTimeline extends React.PureComponent {
     }
   }
 
-  handleLoadMore = maxId => {
-    this.props.dispatch(expandHashtagTimeline(this.props.hashtag, { maxId }));
+  handleLoadMore = () => {
+    this.props.dispatch(expandHashtagTimeline(this.props.hashtag));
   }
 
   render () {
@@ -56,7 +59,7 @@ export default class HashtagTimeline extends React.PureComponent {
           trackScroll={false}
           scrollKey='standalone_hashtag_timeline'
           timelineId={`hashtag:${hashtag}`}
-          onLoadMore={this.handleLoadMore}
+          loadMore={this.handleLoadMore}
         />
       </Column>
     );

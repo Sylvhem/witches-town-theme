@@ -40,7 +40,6 @@ RUN apk -U upgrade \
     nodejs \
     nodejs-npm \
     protobuf \
-    su-exec \
     tini \
     tzdata \
  && update-ca-certificates \

@@ -1,2 +1,3 @@
 default: styles/witches-town.scss
 mastodon: styles/application.scss
+old-witches: styles/old-witches.scss

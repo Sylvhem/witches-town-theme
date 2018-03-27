@@ -179,10 +179,11 @@ class ResolveAccountService < BaseService
   def atom_body
     return @atom_body if defined?(@atom_body)
 
-    @atom_body = Request.new(:get, atom_url).perform do |response|
-      raise Mastodon::UnexpectedResponseError, response unless response.code == 200
-      response.to_s
-    end
+    response = Request.new(:get, atom_url).perform
+
+    raise Mastodon::UnexpectedResponseError, response unless response.code == 200
+
+    @atom_body = response.to_s
   end
 
   def actor_json

@@ -23,17 +23,22 @@ class Pubsubhubbub::DeliveryWorker
   private
 
   def process_delivery
-    callback_post_payload do |payload_delivery|
-      raise Mastodon::UnexpectedResponseError, payload_delivery unless response_successful? payload_delivery
-    end
+    payload_delivery
 
+    raise Mastodon::UnexpectedResponseError, payload_delivery unless response_successful?
+
+    payload_delivery.connection&.close
     subscription.touch(:last_successful_delivery_at)
   end
 
-  def callback_post_payload(&block)
+  def payload_delivery
+    @_payload_delivery ||= callback_post_payload
+  end
+
+  def callback_post_payload
     request = Request.new(:post, subscription.callback_url, body: payload)
     request.add_headers(headers)
-    request.perform(&block)
+    request.perform
   end
 
   def blocked_domain?
@@ -75,7 +80,7 @@ class Pubsubhubbub::DeliveryWorker
     OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), subscription.secret, payload)
   end
 
-  def response_successful?(payload_delivery)
+  def response_successful?
     payload_delivery.code > 199 && payload_delivery.code < 300
   end
 end

@@ -25,6 +25,7 @@ function main() {
   const { getLocale } = require('../mastodon/locales');
   const { localeData } = getLocale();
   const VideoContainer = require('../mastodon/containers/video_container').default;
+  const MediaGalleryContainer = require('../mastodon/containers/media_gallery_container').default;
   const CardContainer = require('../mastodon/containers/card_container').default;
   const React = require('react');
   const ReactDOM = require('react-dom');
@@ -75,20 +76,15 @@ function main() {
       ReactDOM.render(<VideoContainer locale={locale} {...props} />, content);
     });
 
+    [].forEach.call(document.querySelectorAll('[data-component="MediaGallery"]'), (content) => {
+      const props = JSON.parse(content.getAttribute('data-props'));
+      ReactDOM.render(<MediaGalleryContainer locale={locale} {...props} />, content);
+    });
+
     [].forEach.call(document.querySelectorAll('[data-component="Card"]'), (content) => {
       const props = JSON.parse(content.getAttribute('data-props'));
       ReactDOM.render(<CardContainer locale={locale} {...props} />, content);
     });
-
-    const mediaGalleries = document.querySelectorAll('[data-component="MediaGallery"]');
-
-    if (mediaGalleries.length > 0) {
-      const MediaGalleriesContainer = require('../mastodon/containers/media_galleries_container').default;
-      const content = document.createElement('div');
-
-      ReactDOM.render(<MediaGalleriesContainer locale={locale} galleries={mediaGalleries} />, content);
-      document.body.appendChild(content);
-    }
   });
 
   delegate(document, '.webapp-btn', 'click', ({ target, button }) => {
@@ -125,7 +121,7 @@ function main() {
     const noteCounter = document.querySelector('.note-counter');
 
     if (noteCounter) {
-      noteCounter.textContent = 333 - length(target.value);
+      noteCounter.textContent = 160 - length(target.value);
     }
   });
 

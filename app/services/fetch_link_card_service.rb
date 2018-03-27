@@ -36,24 +36,15 @@ class FetchLinkCardService < BaseService
 
   def process_url
     @card ||= PreviewCard.new(url: @url)
+    res     = Request.new(:head, @url).perform
 
-    failed = Request.new(:head, @url).perform do |res|
-      res.code != 405 && (res.code != 200 || res.mime_type != 'text/html')
-    end
+    return if res.code != 405 && (res.code != 200 || res.mime_type != 'text/html')
 
-    return if failed
+    @response = Request.new(:get, @url).perform
 
-    Request.new(:get, @url).perform do |res|
-      if res.code == 200 && res.mime_type == 'text/html'
-        @html = res.to_s
-        @html_charset = res.charset
-      else
-        @html = nil
-        @html_charset = nil
-      end
-    end
+    return if @response.code != 200 || @response.mime_type != 'text/html'
 
-    return if @html.nil?
+    @html = @response.to_s
 
     attempt_oembed || attempt_opengraph
   end
@@ -127,7 +118,7 @@ class FetchLinkCardService < BaseService
     detector = CharlockHolmes::EncodingDetector.new
     detector.strip_tags = true
 
-    guess = detector.detect(@html, @html_charset)
+    guess = detector.detect(@html, @response.charset)
     page  = Nokogiri::HTML(@html, nil, guess&.fetch(:encoding, nil))
 
     if meta_property(page, 'twitter:player')

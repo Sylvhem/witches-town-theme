@@ -14,6 +14,10 @@ const messages = defineMessages({
 
 class Item extends React.PureComponent {
 
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
   static propTypes = {
     attachment: ImmutablePropTypes.map.isRequired,
     standalone: PropTypes.bool,
@@ -49,7 +53,7 @@ class Item extends React.PureComponent {
   handleClick = (e) => {
     const { index, onClick } = this.props;
 
-    if (e.button === 0) {
+    if (this.context.router && e.button === 0) {
       e.preventDefault();
       onClick(index);
     }

@@ -1,7 +1,10 @@
 import {
   NOTIFICATIONS_UPDATE,
+  NOTIFICATIONS_REFRESH_SUCCESS,
   NOTIFICATIONS_EXPAND_SUCCESS,
+  NOTIFICATIONS_REFRESH_REQUEST,
   NOTIFICATIONS_EXPAND_REQUEST,
+  NOTIFICATIONS_REFRESH_FAIL,
   NOTIFICATIONS_EXPAND_FAIL,
   NOTIFICATIONS_CLEAR,
   NOTIFICATIONS_SCROLL_TOP,
@@ -10,15 +13,16 @@ import {
   ACCOUNT_BLOCK_SUCCESS,
   ACCOUNT_MUTE_SUCCESS,
 } from '../actions/accounts';
-import { TIMELINE_DELETE, TIMELINE_DISCONNECT } from '../actions/timelines';
+import { TIMELINE_DELETE } from '../actions/timelines';
 import { Map as ImmutableMap, List as ImmutableList } from 'immutable';
 
 const initialState = ImmutableMap({
   items: ImmutableList(),
-  hasMore: true,
+  next: null,
   top: true,
   unread: 0,
-  isLoading: false,
+  loaded: false,
+  isLoading: true,
 });
 
 const notificationToMap = notification => ImmutableMap({
@@ -44,41 +48,35 @@ const normalizeNotification = (state, notification) => {
   });
 };
 
-const newer = (m, n) => {
-  const mId = m.get('id');
-  const nId = n.get('id');
+const normalizeNotifications = (state, notifications, next) => {
+  let items    = ImmutableList();
+  const loaded = state.get('loaded');
 
-  return mId.length === nId.length ? mId > nId : mId.length > nId.length;
+  notifications.forEach((n, i) => {
+    items = items.set(i, notificationToMap(n));
+  });
+
+  if (state.get('next') === null) {
+    state = state.set('next', next);
+  }
+
+  return state
+    .update('items', list => loaded ? items.concat(list) : list.concat(items))
+    .set('loaded', true)
+    .set('isLoading', false);
 };
 
-const expandNormalizedNotifications = (state, notifications, next) => {
+const appendNormalizedNotifications = (state, notifications, next) => {
   let items = ImmutableList();
 
   notifications.forEach((n, i) => {
     items = items.set(i, notificationToMap(n));
   });
 
-  return state.withMutations(mutable => {
-    if (!items.isEmpty()) {
-      mutable.update('items', list => {
-        const lastIndex = 1 + list.findLastIndex(
-          item => item !== null && (newer(item, items.last()) || item.get('id') === items.last().get('id'))
-        );
-
-        const firstIndex = 1 + list.take(lastIndex).findLastIndex(
-          item => item !== null && newer(item, items.first())
-        );
-
-        return list.take(firstIndex).concat(items, list.skip(lastIndex));
-      });
-    }
-
-    if (!next) {
-      mutable.set('hasMore', true);
-    }
-
-    mutable.set('isLoading', false);
-  });
+  return state
+    .update('items', list => list.concat(items))
+    .set('next', next)
+    .set('isLoading', false);
 };
 
 const filterNotifications = (state, relationship) => {
@@ -99,27 +97,27 @@ const deleteByStatus = (state, statusId) => {
 
 export default function notifications(state = initialState, action) {
   switch(action.type) {
+  case NOTIFICATIONS_REFRESH_REQUEST:
   case NOTIFICATIONS_EXPAND_REQUEST:
     return state.set('isLoading', true);
+  case NOTIFICATIONS_REFRESH_FAIL:
   case NOTIFICATIONS_EXPAND_FAIL:
     return state.set('isLoading', false);
   case NOTIFICATIONS_SCROLL_TOP:
     return updateTop(state, action.top);
   case NOTIFICATIONS_UPDATE:
     return normalizeNotification(state, action.notification);
+  case NOTIFICATIONS_REFRESH_SUCCESS:
+    return normalizeNotifications(state, action.notifications, action.next);
   case NOTIFICATIONS_EXPAND_SUCCESS:
-    return expandNormalizedNotifications(state, action.notifications, action.next);
+    return appendNormalizedNotifications(state, action.notifications, action.next);
   case ACCOUNT_BLOCK_SUCCESS:
   case ACCOUNT_MUTE_SUCCESS:
     return filterNotifications(state, action.relationship);
   case NOTIFICATIONS_CLEAR:
-    return state.set('items', ImmutableList()).set('hasMore', false);
+    return state.set('items', ImmutableList()).set('next', null);
   case TIMELINE_DELETE:
     return deleteByStatus(state, action.id);
-  case TIMELINE_DISCONNECT:
-    return action.timeline === 'home' ?
-      state.update('items', items => items.first() ? items.unshift(null) : items) :
-      state;
   default:
     return state;
   }

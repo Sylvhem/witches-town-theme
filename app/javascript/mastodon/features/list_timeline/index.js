@@ -8,7 +8,7 @@ import ColumnHeader from '../../components/column_header';
 import { addColumn, removeColumn, moveColumn } from '../../actions/columns';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import { connectListStream } from '../../actions/streaming';
-import { expandListTimeline } from '../../actions/timelines';
+import { refreshListTimeline, expandListTimeline } from '../../actions/timelines';
 import { fetchList, deleteList } from '../../actions/lists';
 import { openModal } from '../../actions/modal';
 import MissingIndicator from '../../components/missing_indicator';
@@ -67,7 +67,7 @@ export default class ListTimeline extends React.PureComponent {
     const { id } = this.props.params;
 
     dispatch(fetchList(id));
-    dispatch(expandListTimeline(id));
+    dispatch(refreshListTimeline(id));
 
     this.disconnect = dispatch(connectListStream(id));
   }
@@ -83,9 +83,9 @@ export default class ListTimeline extends React.PureComponent {
     this.column = c;
   }
 
-  handleLoadMore = maxId => {
+  handleLoadMore = () => {
     const { id } = this.props.params;
-    this.props.dispatch(expandListTimeline(id, { maxId }));
+    this.props.dispatch(expandListTimeline(id));
   }
 
   handleEditClick = () => {
@@ -164,7 +164,7 @@ export default class ListTimeline extends React.PureComponent {
           trackScroll={!pinned}
           scrollKey={`list_timeline-${columnId}`}
           timelineId={`list:${id}`}
-          onLoadMore={this.handleLoadMore}
+          loadMore={this.handleLoadMore}
           emptyMessage={<FormattedMessage id='empty_column.list' defaultMessage='There is nothing in this list yet. When members of this list post new statuses, they will appear here.' />}
         />
       </Column>

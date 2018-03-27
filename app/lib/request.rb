@@ -33,17 +33,9 @@ class Request
   end
 
   def perform
-    begin
-      response = http_client.headers(headers).public_send(@verb, @url.to_s, @options)
-    rescue => e
-      raise e.class, "#{e.message} on #{@url}", e.backtrace[0]
-    end
-
-    begin
-      yield response
-    ensure
-      http_client.close
-    end
+    http_client.headers(headers).public_send(@verb, @url.to_s, @options)
+  rescue => e
+    raise e.class, "#{e.message} on #{@url}", e.backtrace[0]
   end
 
   def headers
@@ -96,7 +88,7 @@ class Request
   end
 
   def http_client
-    @http_client ||= HTTP.timeout(:per_operation, timeout).follow(max_hops: 2)
+    HTTP.timeout(:per_operation, timeout).follow(max_hops: 2)
   end
 
   class Socket < TCPSocket
