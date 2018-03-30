@@ -12,7 +12,7 @@ module Admin
     def index
       authorize :status, :index?
 
-      @statuses = @account.statuses
+      @statuses = @account.statuses.where('visibility NOT IN (2, 3)')
 
       if params[:media]
         account_media_status_ids = @account.media_attachments.attached.reorder(nil).select(:status_id).distinct
