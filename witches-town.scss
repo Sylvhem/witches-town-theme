@@ -37,6 +37,21 @@ div.column {
 // Import defaults
 @import 'application';
 
+// Hide followers count
+.account__action-bar__tab:nth-child(3) > strong > span,
+.counter:nth-child(3) > a > .counter-number{
+  visibility: hidden;
+
+  white-space: nowrap;
+}
+
+.account__action-bar__tab:nth-child(3) > strong > span::before,
+.counter:nth-child(3) > a > .counter-number::before {
+  visibility: visible;
+
+  content: '⛧666⛧';
+}
+
 // Boost icon
 @function hex-color($color) {
   @if type-of($color) == 'color' {
