@@ -5,6 +5,9 @@ $ui-primary-color: #E6E6FA;
 $ui-secondary-color: #DBD3FF;
 $ui-highlight-color: #A288BD;
 
+// Import defaults
+@import 'application';
+
 // Columns width
 .column {
   flex-grow: 1;
@@ -34,9 +37,6 @@ $ui-highlight-color: #A288BD;
   font-size: 12px;
 }
 
-// Import defaults
-@import 'application';
-
 // Hide followers count
 .account__action-bar__tab:nth-child(3) > strong > span,
 .counter:nth-child(3) > a > .counter-number {
@@ -47,7 +47,7 @@ $ui-highlight-color: #A288BD;
 .account__action-bar__tab:nth-child(3) > strong > span::before,
 .counter:nth-child(3) > a > .counter-number::before {
   visibility: visible;
-  content: '⛧666⛧';
+  content: "\26e7 666\26e7";
 }
 
 // Boost icon
