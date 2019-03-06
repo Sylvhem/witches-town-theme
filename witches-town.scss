@@ -37,17 +37,67 @@ $ui-highlight-color: #A288BD;
   font-size: 12px;
 }
 
-// Hide followers count
-.account__action-bar__tab:nth-child(3) > strong > span,
-.counter:nth-child(3) > a > .counter-number {
-  visibility: hidden;
+// Hide followers count in webapp
+.account__action-bar__tab:nth-child(3) {
   white-space: nowrap;
 }
 
-.account__action-bar__tab:nth-child(3) > strong > span::before,
-.counter:nth-child(3) > a > .counter-number::before {
+.account__action-bar__tab:nth-child(3) > strong > span {
+  font-size: 0;
+  line-height: 0;
+}
+
+.account__action-bar__tab:nth-child(3) > strong > span::before {
+  padding-right: 5px;
+  padding-left: 5px;
+  content: "666";
+  font-size: 15px;
+  line-height: 18px;
+}
+
+.account__action-bar__tab:nth-child(3) > strong::before,
+.account__action-bar__tab:nth-child(3) > strong::after {
+  content: "\f005";
+  vertical-align: top;
+  font-weight: 400;
+  font-size: 12px;
+  font-family: witchesAwesome, FontAwesome;
+  text-rendering: auto;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+// Hide followers count on public profil
+.public-layout .public-account-header__tabs__tabs .counter:nth-child(3) .counter-number {
+  font-size: 0;
+  line-height: 0;
+}
+
+.public-layout .public-account-header__tabs__tabs .counter:nth-child(3) .counter-number::before {
+  padding-right: 5px;
+  padding-left: 5px;
+  color: #fff;
+  content: "666";
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.public-layout .public-account-header__tabs__tabs .counter:nth-child(3) a::before,
+.public-layout .public-account-header__tabs__tabs .counter:nth-child(3) .counter-number::after {
   visibility: visible;
-  content: "\26e7 666\26e7";
+  vertical-align: top;
+  font-weight: 400;
+  font-size: 12px;
+  font-family: witchesAwesome, FontAwesome;
+  line-height: 20px;
+  text-rendering: auto;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+.public-layout .public-account-header__tabs__tabs .counter:nth-child(3) a::before,
+.public-layout .public-account-header__tabs__tabs .counter:nth-child(3) .counter-number::after {
+  content: "\f005";
 }
 
 // Boost icon
